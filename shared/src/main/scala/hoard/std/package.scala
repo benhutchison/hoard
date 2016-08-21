@@ -5,4 +5,5 @@ package object std {
 
   object list       extends ListInstances
   object vector     extends VectorInstances
+  object nevector     extends NonEmptyVectorInstances
 }

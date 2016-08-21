@@ -14,11 +14,13 @@ Inspired by:
 
 ### SBT Coordinates
 
-Scala.jvm: `"com.github.benhutchison" %% "hoard" % "0.1"`
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.benhutchison/hoard_2.12.svg)][search.maven]
 
-Scala.js: `"com.github.benhutchison" %%% "hoard" % "0.1"`
+Scala.jvm: `"com.github.benhutchison" %% "hoard" % version`
 
-Published for Scala 
+Scala.js: `"com.github.benhutchison" %%% "hoard" % version`
+
+Published for Scala 2.11, 2.12
 
 [![Build Status](https://travis-ci.org/benhutchison/hoard.svg?branch=master)](https://travis-ci.org/benhutchison/hoard)
 
@@ -41,6 +43,8 @@ res3: Option[(Int, scala.collection.immutable.Vector[Int])] = None
 | Version | When   | Changes |
 | --------| -------| --------|
 | 0.1     | Aug 16 | Defined `front` to de-structure Sequences, implement `List` and `Vector`|
+| 0.2     | na | skipped |
+| 0.3     | Nov 16 | List/Vector instances inherit from cats instances to avoid ambiguity. Scala 2.12, cats 0.8.1 |
 
 ## Contibuting
 

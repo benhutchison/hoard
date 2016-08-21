@@ -5,9 +5,9 @@ import cats._
 import hoard.Sequence
 
 
-trait VectorInstances {
+trait VectorInstances extends cats.instances.VectorInstances {
 
-  import cats.instances.vector.{catsStdInstancesForVector => I}
+  val catsVector = catsStdInstancesForVector
 
   implicit def vectorIsSequence[A]: Sequence[Vector] = new Sequence[Vector] {
 
@@ -16,27 +16,25 @@ trait VectorInstances {
       case _ => None
     }
 
-    //Boilerplate delegation of Traverse & MonadCombine from here on
+    //Boilerplate delegation of Traverse & Monad from here on
 
-    def empty[A]: Vector[A] = I.empty[A]
+    def pure[A](x: A): Vector[A] = catsVector.pure(x)
 
-    def combineK[A](x: Vector[A], y: Vector[A]): Vector[A] = I.combineK(x, y)
+    override def map[A, B](fa: Vector[A])(f: A => B): Vector[B] = catsVector.map(fa)(f)
 
-    def pure[A](x: A): Vector[A] = I.pure(x)
+    def flatMap[A, B](fa: Vector[A])(f: A => Vector[B]): Vector[B] = catsVector.flatMap(fa)(f)
 
-    override def map[A, B](fa: Vector[A])(f: A => B): Vector[B] = I.map(fa)(f)
+    def tailRecM[A, B](a: A)(f: A => Vector[Either[A, B]]): Vector[B] = catsVector.tailRecM(a)(f)
 
-    def flatMap[A, B](fa: Vector[A])(f: A => Vector[B]): Vector[B] = I.flatMap(fa)(f)
+    override def map2[A, B, Z](fa: Vector[A], fb: Vector[B])(f: (A, B) => Z): Vector[Z] = catsVector.map2(fa, fb)(f)
 
-    override def map2[A, B, Z](fa: Vector[A], fb: Vector[B])(f: (A, B) => Z): Vector[Z] = I.map2(fa, fb)(f)
+    def foldLeft[A, B](fa: Vector[A], b: B)(f: (B, A) => B): B = catsVector.foldLeft(fa, b)(f)
 
-    def foldLeft[A, B](fa: Vector[A], b: B)(f: (B, A) => B): B = I.foldLeft(fa, b)(f)
+    def foldRight[A, B](fa: Vector[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = catsVector.foldRight(fa, lb)(f)
 
-    def foldRight[A, B](fa: Vector[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = I.foldRight(fa, lb)(f)
+    override def size[A](fa: Vector[A]): Long = catsVector.size(fa)
 
-    override def size[A](fa: Vector[A]): Long = I.size(fa)
-
-    def traverse[G[_], A, B](fa: Vector[A])(f: A => G[B])(implicit G: Applicative[G]): G[Vector[B]] = I.traverse(fa)(f)
+    def traverse[G[_], A, B](fa: Vector[A])(f: A => G[B])(implicit G: Applicative[G]): G[Vector[B]] = catsVector.traverse(fa)(f)
   }
 
 }

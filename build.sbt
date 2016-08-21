@@ -1,43 +1,22 @@
 lazy val root = project.in(file(".")).aggregate(hoardJS, hoardJVM).
   settings(
     publishArtifact := false,
-    crossScalaVersions := Seq("2.11.8"),
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
-    sonatypeProfileName := "com.github.benhutchison",
-    {
-      import ReleaseTransformations._
-      releaseProcess := Seq[ReleaseStep](
-        checkSnapshotDependencies,
-        inquireVersions,
-        runClean,
-        runTest,
-        setReleaseVersion,
-        commitReleaseVersion,
-        tagRelease,
-        ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
-        setNextVersion,
-        commitNextVersion
-    )}
+    crossScalaVersions := Seq("2.11.8", "2.12.0"),
+    sonatypeProfileName := "com.github.benhutchison"
   )
 
 lazy val hoardCross = crossProject.in(file(".")).
   settings(
     name := "hoard",
     organization := "com.github.benhutchison",
-    version := "0.1",
-    scalaVersion := "2.11.8",
-    resolvers ++= Seq(
-      Resolver.sonatypeRepo("releases"),
-      Resolver.sonatypeRepo("snapshots")),
+    scalaVersion := "2.12.0",
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats" % "0.7.0-SNAPSHOT",
-      "org.scalatest" %%% "scalatest" % "3.0.0-M15" %  "test"
+      "org.typelevel" %%% "cats-core" % "0.8.1",
+      "org.typelevel" %%% "cats-laws" % "0.8.1" % "test",
+      "org.scalatest" %%% "scalatest" % "3.0.0" %  "test"
     ),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
-    libraryDependencies += "com.github.mpilquist" %% "simulacrum" % "0.8.0",
-    publishTo <<= version { (v: String) =>
-      Some("releases"  at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
-    },
+    libraryDependencies += "com.github.mpilquist" %% "simulacrum" % "0.10.0",
     publishMavenStyle := true,
     pomExtra :=
       <url>https://github.com/benhutchison/hoard</url>
