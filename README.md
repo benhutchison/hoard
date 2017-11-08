@@ -45,6 +45,7 @@ res3: Option[(Int, scala.collection.immutable.Vector[Int])] = None
 | 0.1     | Aug 16 | Defined `front` to de-structure Sequences, implement `List` and `Vector`|
 | 0.2     | na | skipped |
 | 0.3     | Nov 16 | List/Vector instances inherit from cats instances to avoid ambiguity. Scala 2.12, cats 0.8.1 |
+| 0.4     | Nov 17 | Scala 2.12, cats 1.0.0-RC1 |
 
 ## Contibuting
 
